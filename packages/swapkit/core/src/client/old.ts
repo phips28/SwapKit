@@ -8,7 +8,13 @@ import {
   getMinAmountByChain,
 } from "@swapkit/helpers";
 import type { CosmosLikeToolbox } from "@swapkit/toolbox-cosmos";
-import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from "@swapkit/toolbox-evm";
+import type {
+  ARBToolbox,
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  EVMToolbox,
+} from "@swapkit/toolbox-evm";
 import type { UTXOToolbox } from "@swapkit/toolbox-utxo";
 import type {
   AddChainWalletParams,
@@ -321,7 +327,9 @@ export class SwapKitCore<T = ""> {
                 : TCEthereumVaultAbi;
 
           const response = await (
-            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
+            walletInstance as EVMWallet<
+              typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox | typeof ARBToolbox
+            >
           ).call({
             abi,
             contractAddress:

@@ -16,8 +16,15 @@ import {
 } from "@swapkit/types";
 import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from "ethers";
 
-import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from "./index.ts";
+import {
+  ARBToolbox,
+  AVAXToolbox,
+  BSCToolbox,
+  type CovalentApiType,
+  ETHToolbox,
+  type EVMMaxSendableAmountsParams,
+  type EthplorerApiType,
+} from "./index.ts";
 
 type NetworkParams = {
   chainId: ChainId;
@@ -145,14 +152,19 @@ export const getWeb3WalletMethods = async ({
       ? ETHToolbox(toolboxParams)
       : chain === Chain.Avalanche
         ? AVAXToolbox(toolboxParams)
-        : BSCToolbox(toolboxParams);
+        : chain === Chain.Arbitrum
+          ? ARBToolbox(toolboxParams)
+          : BSCToolbox(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
       (await addEVMWalletNetwork(
         provider,
         (
-          toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
+          toolbox as
+            | ReturnType<typeof AVAXToolbox>
+            | ReturnType<typeof BSCToolbox>
+            | ReturnType<typeof ARBToolbox>
         ).getNetworkParams(),
       ));
   } catch (_error) {

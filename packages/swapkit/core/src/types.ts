@@ -86,7 +86,12 @@ export type SubstrateBasedWallet<T extends typeof PolkadotToolbox | typeof Chain
   Awaited<ReturnType<T>>;
 
 export type EVMWallet<
-  T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox | typeof OPToolbox,
+  T extends
+    | typeof AVAXToolbox
+    | typeof BSCToolbox
+    | typeof ETHToolbox
+    | typeof OPToolbox
+    | typeof ARBToolbox,
 > = ReturnType<T> & {
   transfer: (params: CoreTxParams) => Promise<string>;
 };

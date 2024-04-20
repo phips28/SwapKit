@@ -18,7 +18,7 @@ import {
   getMemoFor,
   getMinAmountByChain,
 } from "@swapkit/helpers";
-import type { AVAXToolbox, BSCToolbox, ETHToolbox } from "@swapkit/toolbox-evm";
+import type { ARBToolbox, AVAXToolbox, BSCToolbox, ETHToolbox } from "@swapkit/toolbox-evm";
 import type { EVMChain } from "@swapkit/types";
 import {
   AGG_SWAP,
@@ -409,7 +409,7 @@ export const ThorchainProvider = ({
 
     if (AGG_SWAP.includes(quoteMode) && evmChain) {
       const walletMethods = wallets[evmChain] as EVMWallet<
-        typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox
+        typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox | typeof ARBToolbox
       >;
       if (!walletMethods?.sendTransaction) {
         throw new SwapKitError("core_wallet_connection_not_found");
@@ -463,7 +463,7 @@ export const ThorchainProvider = ({
       if (!contractAddress) throw new SwapKitError("core_swap_contract_not_found");
 
       const walletMethods = wallets[evmChain] as EVMWallet<
-        typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox
+        typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox | typeof ARBToolbox
       > | null;
       const from = getAddress(wallets, evmChain);
 
@@ -550,7 +550,9 @@ export const ThorchainProvider = ({
                 : TCEthereumVaultAbi;
 
           const response = await (
-            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
+            walletInstance as EVMWallet<
+              typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox | typeof ARBToolbox
+            >
           ).call({
             abi,
             contractAddress:
