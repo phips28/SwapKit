@@ -378,7 +378,7 @@ describe("AssetValue", () => {
 
   describe("fromChainOrSignature", () => {
     test("creates AssetValue from common asset string or chain", () => {
-      const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain, Chain.Maya];
+      const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain, Chain.Maya, Chain.Arbitrum, Chain.Optimism];
       const filteredChains = Object.values(Chain).filter((c) => !customBaseAsset.includes(c));
 
       for (const chain of filteredChains) {
@@ -388,7 +388,7 @@ describe("AssetValue", () => {
             address: undefined,
             chain,
             decimal: BaseDecimal[chain],
-            isGasAsset: ![Chain.Arbitrum, Chain.Optimism].includes(chain),
+            isGasAsset: true,
             isSynthetic: false,
             symbol: chain,
             ticker: chain,
@@ -479,6 +479,34 @@ describe("AssetValue", () => {
         }),
       );
     });
+
+    const arbAsset = AssetValue.fromChainOrSignature(Chain.Arbitrum);
+    expect(arbAsset).toEqual(
+      expect.objectContaining({
+        address: undefined,
+        chain: Chain.Arbitrum,
+        decimal: BaseDecimal.ARB,
+        isGasAsset: true,
+        isSynthetic: false,
+        symbol: "ETH",
+        ticker: "ETH",
+        type: "Native",
+      }),
+    );
+
+    const opAsset = AssetValue.fromChainOrSignature(Chain.Optimism);
+    expect(opAsset).toEqual(
+      expect.objectContaining({
+        address: undefined,
+        chain: Chain.Optimism,
+        decimal: BaseDecimal.OP,
+        isGasAsset: true,
+        isSynthetic: false,
+        symbol: "ETH",
+        ticker: "ETH",
+        type: "Native",
+      }),
+    );
   });
 
   describe("loadStaticAssets", () => {
