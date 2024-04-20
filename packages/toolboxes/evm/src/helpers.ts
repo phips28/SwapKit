@@ -64,13 +64,18 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
   toolbox,
   chainId,
   provider = window.ethereum,
+  excludedMethodsFromWrap = [],
 }: {
   toolbox: T;
   chainId: ChainId;
   provider?: BrowserProvider;
+  excludedMethodsFromWrap?: string[];
 }) => {
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
+
+    if (excludedMethodsFromWrap.includes(methodName)) return object;
+
     const method = toolbox[methodName];
 
     return {
@@ -163,6 +168,7 @@ export const getWeb3WalletMethods = async ({
     toolbox: { ...toolbox },
     chainId: ChainToHexChainId[chain],
     provider,
+    excludedMethodsFromWrap: ["getBalance"],
   });
 };
 
