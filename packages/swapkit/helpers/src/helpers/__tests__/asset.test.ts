@@ -1,7 +1,7 @@
 import { BaseDecimal, Chain } from "@swapkit/types";
 import { describe, expect, test } from "vitest";
 
-import { getAssetType, getDecimal } from "../asset.ts";
+import { assetFromString, getAssetType, getDecimal } from "../asset.ts";
 
 const tickerMap: Record<string, string> = {
   [Chain.THORChain]: "RUNE",
@@ -154,6 +154,32 @@ describe("getDecimal", () => {
         symbol: "USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
       });
       expect(usdcDecimal).toBe(6);
+    });
+  });
+});
+
+describe("assetFromString", () => {
+  test("should return the correct object", () => {
+    const assetString = "THOR.RUNE";
+    const result = assetFromString(assetString);
+
+    expect(result).toEqual({
+      chain: Chain.THORChain,
+      symbol: "RUNE",
+      ticker: "RUNE",
+      synth: false,
+    });
+  });
+
+  test("should return the correct object for multiple dashes", () => {
+    const assetString = "ETH.PENDLE-LPT-0x1234";
+    const result = assetFromString(assetString);
+
+    expect(result).toEqual({
+      chain: Chain.Ethereum,
+      symbol: "PENDLE-LPT-0x1234",
+      ticker: "PENDLE-LPT",
+      synth: false,
     });
   });
 });
