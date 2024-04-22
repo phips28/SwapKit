@@ -636,7 +636,12 @@ export const ThorchainProvider = ({
     contractAddress?: string;
   }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain, Chain.Arbitrum].includes(chain);
+    const isEVMChain = [
+      Chain.Ethereum,
+      Chain.Avalanche,
+      Chain.BinanceSmartChain,
+      Chain.Arbitrum,
+    ].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
     if (isNativeEVM || !isEVMChain || isSynthetic) {
