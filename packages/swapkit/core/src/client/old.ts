@@ -31,6 +31,7 @@ import {
   MemoType,
   SWAP_IN,
   SWAP_OUT,
+  TCArbitrumDepositABI,
   TCAvalancheDepositABI,
   TCBscDepositABI,
   TCEthereumVaultAbi,
@@ -325,7 +326,9 @@ export class SwapKitCore<T = ""> {
               ? TCAvalancheDepositABI
               : chain === Chain.BinanceSmartChain
                 ? TCBscDepositABI
-                : TCEthereumVaultAbi;
+                : chain === Chain.Arbitrum
+                  ? TCArbitrumDepositABI
+                  : TCEthereumVaultAbi;
 
           const response = await (
             walletInstance as EVMWallet<
