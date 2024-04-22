@@ -539,7 +539,8 @@ export const ThorchainProvider = ({
 
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
-        case Chain.Avalanche: {
+        case Chain.Avalanche:
+        case Chain.Arbitrum: {
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
 
           const abi =
@@ -635,7 +636,7 @@ export const ThorchainProvider = ({
     contractAddress?: string;
   }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
+    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain, Chain.Arbitrum].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
     if (isNativeEVM || !isEVMChain || isSynthetic) {
